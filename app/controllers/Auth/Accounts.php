@@ -4,19 +4,22 @@ class Accounts extends Controller {
     public Request $request;
     public Redirect $redirect;
 
+    //use AccountsModel;
+
     public function __construct(Request $request = null)
     {
         $this->AccountsModel = $this->model('AccountsModel');
         $this->request = $request !== null ? $request : new Request;
         $this->redirect = new Redirect;
+        $this->create($this->AccountsModel);
     }
 
     public function index() {
-        $this->view('auth/accounts');
+        $users = $this->AccountsModel->show();
+        $this->view('auth/accounts', $users);
     }
 
-    public function post() {
-        var_dump("Send");
-        $this->AccountsModel->post();
+    public function create(AccountsModel $model) {
+        return $model->create();
     }
 }

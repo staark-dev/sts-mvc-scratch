@@ -30,6 +30,12 @@ class Database {
         $this->stmt->execute();
     }
 
+    public function query_result_array(string $query) {
+        $this->stmt = $this->dbh->prepare($query);
+        $this->stmt->execute();
+        return $this->stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public function query_result(string $query) {
         $this->stmt = $this->dbh->prepare($query);
         $this->stmt->execute();
