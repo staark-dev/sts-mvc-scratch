@@ -16,12 +16,5 @@ function auto_load_files(string $class, array $dirs) : void {
 }
 
 spl_autoload_register(function ($class) {
-        $data = [
-            "Models",
-            "Controllers",
-            "Helpers"
-        ];
-
-        auto_load_files($class, $data);
-        require 'core/' . $class . '.php';
+    require 'core/' . $class . '.php';
 });

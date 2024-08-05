@@ -18,7 +18,7 @@ require_once 'app/bootstrap.php';
  * Autoload Vendors
  * --------------------------------------------------
 */
-
+require_once 'app/Models/Users.php';
 /**
  * --------------------------------------------------
  * Create Instance of Applications
