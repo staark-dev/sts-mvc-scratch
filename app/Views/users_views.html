@@ -1,0 +1,26 @@
+{% extends layouts/layout %}
+
+{% block title %} - View user profile - @user(name) {% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-sm-3 left-side align-items-center p-3 my-0">
+            <div class="my-2 p-2">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="card-img-top" alt="..." />
+            </div>
+            <div style="text-align: center;">
+                <h4 class="text text-white"><strong>@user(name)</strong></h4>
+                <span class="text text-sm text-white">Join: @user(date)</span><br>
+                <span class="text text-sm text-white">
+                    <a class="fs-5 text-white" href="mailto:@user(email)"><i class="bi bi-envelope-at-fill"></i></a>
+                    <i class="fs-5 text-white bi bi-browser-edge"></i>
+                    <i class="fs-5 bi bi-telephone-forward"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-8 right-side align-items-left">
+            Other Profile Info
+        </div>
+    </div>
+</div>
+{% endblock %}

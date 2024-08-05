@@ -6,6 +6,7 @@ class Request {
     public function __construct()
     {
         $this->data = $_POST;
+        $this->query = $_GET;
     }
 
     public function data($key) {

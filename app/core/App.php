@@ -1,9 +1,9 @@
 <?php
 
     class App {
-        private $controller = "Home";
-        private $method;
-        private $params;
+        private string $controller = "Home";
+        private string $method = "index";
+        private mixed $params;
 
         private function slitURL() {
             $url = $_GET['url'] ?? "Home";
@@ -19,39 +19,32 @@
              */
             $viewControllers = "app/controllers/" . ucfirst($url[0]) . '.php';
 
-            if(!file_exists($viewControllers) && count($url) > 1) {
+            if(!file_exists($viewControllers))
                 $viewControllersPath = "app/controllers/" . ucfirst($url[0]) . '/' . ucfirst($url[1]) . '.php';
-            }
 
             /**
              * 404 Page Not Found
              */
             $_404 = "app/controllers/_404.php";
 
-            /**
-             * Check controller type and pages.
-             */
-            if(!file_exists($viewControllers) && count($url) > 1) {
-                require_once $viewControllersPath;
-                $this->controller = ucfirst($url[1]);
-                unset($url[0]);
-                unset($url[1]);
-            } elseif(!file_exists($viewControllers) && count($url) > 0) {
-                require_once $_404;
-                $this->controller = '_404';
-                unset($url[0]);
-            } elseif(file_exists($viewControllers)){
+            if(file_exists($viewControllers)) {
                 require_once $viewControllers;
                 $this->controller = ucfirst($url[0]);
                 unset($url[0]);
             }
 
-            $controller = new $this->controller;
+            if(!file_exists($viewControllers) && file_exists($viewControllersPath)) {
+                require_once $viewControllersPath;
+                $this->controller = ucfirst($url[0]) . '' . ucfirst($url[1]);
+                unset($url[0]);
+                unset($url[1]);
+            }
 
+            $controller = new $this->controller;
+            
             /**
              * Check for method
              */
-
             if(!empty($url[1]) && method_exists($controller, $url[1])) {
                 $this->method = $url[1];
                 unset($url[1]);

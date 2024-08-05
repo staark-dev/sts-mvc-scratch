@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STS CMR - Login Account</title>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-</head>
-<body>
+{% extends layouts/layout %}
+{% block title %} - User Login{% endblock %}
+{% block content %}
     <div class="container">
         <div class="row">
             <div class="col-md-6 card-header">
@@ -18,7 +10,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <form action="<?=baseurl();?>/auth/login" method="post">
+                <form action="{% baseurl() %}/auth/login" method="post">
                     <div class="row">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" name="name" id="" />
@@ -36,5 +28,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

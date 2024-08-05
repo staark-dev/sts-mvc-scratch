@@ -1,0 +1,8 @@
+{% extends layouts/layout %}
+{% block title %} - Home Page{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <pre>@var($_SESSION)</pre>
+    {% $number_of_users = count(scandir(ini_get("session.save_path"))) - 2; %}
+</div>
+{% endblock %}

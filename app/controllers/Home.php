@@ -1,23 +1,8 @@
 <?php
 class Home extends Controller {
-    public $home;
-    public Request $request;
-    public Redirect $redirect;
-
-    public function __construct(Request $request = null)
-    {
-        $this->home = $this->model('HomeModel');
-        $this->request = $request !== null ? $request : new Request;
-        $this->redirect = new Redirect;
-    }
-
+    
     public function index() {
+        //var_dump($this->query("SELECT * FROM `accounts` ORDER BY uID DESC LIMIT 0, 10"));
         $this->view('welcome');
-    }
-
-    public function store() {
-        if($this->request->isPost()) {
-            $insert = $this->home->store();
-        }
     }
 }

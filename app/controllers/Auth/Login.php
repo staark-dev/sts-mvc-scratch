@@ -9,9 +9,14 @@ class Login extends Controller {
         $this->LoginModel = $this->model('LoginModel');
         $this->request = $request !== null ? $request : new Request;
         $this->redirect = new Redirect;
+        $this->login($this->LoginModel);
     }
 
     public function index() {
         $this->view('auth/login');
+    }
+
+    public function login(LoginModel $model) {
+        return $model->login($this->request->data);
     }
 }

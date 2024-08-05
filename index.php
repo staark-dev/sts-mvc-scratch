@@ -12,7 +12,7 @@ require_once 'app/bootstrap.php';
  * Start sessions
  * --------------------------------------------------
 */
-#Session::init();
+//_Sessions::init();
 /**
  * --------------------------------------------------
  * Autoload Vendors
