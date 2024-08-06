@@ -79,7 +79,6 @@ class Router {
          * @param Controller::method
          */
         if(is_array($callback)) {
-            var_dump($callback);
             require_once 'app/Controllers/' . $callback[0] . '.php';
             $controller = new $callback[0];
             $controllerMethod = $callback[1] ?? 'index';
