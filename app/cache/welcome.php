@@ -46,8 +46,7 @@
     <div class="container-fluid">
         
 <div class="container my-5">
-    <pre><?php print_r($_SESSION); ?></pre>
-    <?php echo $number_of_users = count(scandir(ini_get("session.save_path"))) - 2; ?>
+    Welcome to Home
 </div>
 
     </div>

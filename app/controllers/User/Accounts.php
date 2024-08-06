@@ -1,14 +1,14 @@
 <?php
 class Accounts extends Controller {
     public $AccountsModel;
-    public Request $request;
-    public Redirect $redirect;
+    public Http\Request $request;
+    public Http\Redirect $redirect;
 
-    public function __construct(Request $request = null)
+    public function __construct(Http\Request $request = null)
     {
-        $this->AccountsModel = $this->model('UserModel');
-        $this->request = $request !== null ? $request : new Request;
-        $this->redirect = new Redirect;
+        $this->AccountsModel = $this->loadModel('UserModel');
+        $this->request = $request !== null ? $request : new Http\Request;
+        $this->redirect = new Http\Redirect;
     }
 
     public function index() {

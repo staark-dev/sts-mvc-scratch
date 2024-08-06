@@ -1,5 +1,5 @@
 <?php
-namespace Traits;
+//namespace Traits;
 
 trait Template {
     protected static array $blocks = [];

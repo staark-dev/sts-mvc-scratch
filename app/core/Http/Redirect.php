@@ -1,4 +1,6 @@
 <?php
+namespace Http;
+
 class Redirect {
     public function to(string $url) {
         header("Location: " .baseurl() . "/" . $url);

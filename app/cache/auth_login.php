@@ -1,4 +1,4 @@
-<?php class_exists('Controller') or exit; ?>
+<?php class_exists('App') or exit; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
