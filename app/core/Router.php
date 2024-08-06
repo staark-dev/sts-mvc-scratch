@@ -20,8 +20,8 @@ class Router {
 
     public ?Request $request;
     public ?Response $response;
-    protected $routes = [];
-    protected $params = [];
+    protected array $routes = [];
+    protected array $params = [];
 
     public function __construct(Request $request)
     {
@@ -30,7 +30,11 @@ class Router {
         $this->response = new Response;
     }
 
-    public static function __callStatic( $method, $params ) {
+    public static function __callStatic($method, $params) {
+        if(method_exists($method)) {
+            var_dump($method);
+            // call_user_func($method, $params);
+        }
         return;
     }
 
@@ -40,20 +44,24 @@ class Router {
         }
     }
 
-    public function get(string $url, $callback, array $params = []){
+    public function get(string $url, $callback, array $params = []): void
+    {
         $this->routes['get'][$url] = $callback;
         $this->params = $params;
     }
 
-    public function put(string $url, $callback, array $params = []){
+    public function put(string $url, $callback, array $params = []): void
+    {
         $this->routes['put'][$url] = $callback;
     }
 
-    public function delete(string $url, $callback, array $params = []){
+    public function delete(string $url, $callback, array $params = []): void
+    {
         $this->routes['delete'][$url] = $callback;
     }
 
-    public function post(string $url, $callback, array $params = []){
+    public function post(string $url, $callback, array $params = []): void
+    {
         $this->routes['post'][$url] = $callback;
     }
 
@@ -79,7 +87,6 @@ class Router {
          * @param Controller::method
          */
         if(is_array($callback)) {
-            var_dump($callback);
             require_once 'app/Controllers/' . $callback[0] . '.php';
             $controller = new $callback[0];
             $controllerMethod = $callback[1] ?? 'index';

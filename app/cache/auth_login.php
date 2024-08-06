@@ -1,4 +1,4 @@
-<?php class_exists('App') or exit; ?>
+<?php class_exists('Controller') or exit; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +45,7 @@
 </nav>
     <div class="container-fluid">
         
-    <div class="container">
+    <div class="container my-5 py-2">
         <div class="row">
             <div class="col-md-6 card-header">
                 <h3 class="text text-info">Account Manager - Login</h3>
