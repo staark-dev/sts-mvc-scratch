@@ -10,6 +10,9 @@ class App {
     public function __construct() {
         $this->request = new Request;
         $this->response = new Response;
+
+        require_once 'app/routes/web.php';
+        require_once 'app/routes/api.php';
     }
 
     /**
@@ -49,7 +52,6 @@ class App {
 
     public function run(): void
     {
-        require_once 'app/routes/web.php';
-        require_once 'app/routes/api.php';
+        // TODO: 
     }
 }

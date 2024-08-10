@@ -70,7 +70,7 @@
                 <a href="<?php echo baseurl() ?>/auth/login" class="btn btn-light text-dark me-2">Login</a>
                 <a href="<?php echo baseurl() ?>/auth/signup" class="btn btn-primary">Sign-up</a>
                 <?php else: ?>
-                <a href="http://127.0.2.36/auth/accounts/User/2" class="btn btn-light text-dark me-2"><?php echo $_SESSION['user_session']['user']; ?></a>
+                <a href="http://127.0.2.36/auth/accounts/Admin/1" class="btn btn-light text-dark me-2"><?php echo $_SESSION['user_session']['user']; ?></a>
                 <a href="<?php echo baseurl() ?>/auth/sign-out" class="btn btn-primary">Sign Out</a>
                 <?php endif; ?>
             </div>

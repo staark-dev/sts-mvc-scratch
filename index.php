@@ -6,14 +6,12 @@
  * --------------------------------------------------
 */
 require_once 'app/bootstrap.php';
-require_once 'app/routes/web.php';
-require_once 'app/routes/api.php';
+
 /**
  * --------------------------------------------------
  * Start sessions
  * --------------------------------------------------
 */
-//_Sessions::init();
 
 /**
  * --------------------------------------------------
@@ -21,11 +19,13 @@ require_once 'app/routes/api.php';
  * --------------------------------------------------
 */
 $app = new App;
+
 /**
  * --------------------------------------------------
  * Autoload Vendors
  * --------------------------------------------------
 */
+
 try {
     $app->registerHandler([
         'Router' => Router::class,
@@ -33,11 +33,13 @@ try {
         'Database' => Database::class
     ], 'app/core/');
 } catch (Exception $e) {
-    //echo "This is error from class App: " . $e->getMessage();
+    echo "[STS Logs]: " . $e->getMessage();
 }
+
 /**
  * --------------------------------------------------
  * Run Applications
  * --------------------------------------------------
 */
+
 $app->run();
