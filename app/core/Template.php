@@ -71,7 +71,7 @@ trait Template {
         $code = preg_replace('/@endif;/is', '<?php endif; ?>', $code);
 
         $code = preg_replace('/@\[\s*(.*?)\s*\]/is', '<?php $1; ?>', $code);
-        $code = preg_replace('/@url\{(.+?)\|\s*(.+?\s*)\s*\}/is', '<a href="/user/accounts/$2/$1" class="user-link text-sm text-info">$2</a>', $code);
+        $code = preg_replace('/@url\{(.+?)\|\s*(.+?\s*)\s*\}/is', '<a href="/user/profile/$2/$1" class="user-link text-sm text-info">$2</a>', $code);
         $code = preg_replace('/@var\(\s*(.*?)\s*\)/is', '<?php print_r($1); ?>', $code);
         $code = preg_replace('/@user\(\s*(.*?)\s*\)/is', '<?php echo $data[\'$1\']; ?>', $code);
 

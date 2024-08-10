@@ -65,7 +65,7 @@
                             <tr id="user-<?php echo $users['uID'] ?>">
                                 <td><input type="checkbox" class="checkthis" id="<?php echo $users['uID'] ?>" /></td>
                                 <?php if(strcmp($users['uID'], 0)): ?>
-                                <td><a href="/user/accounts/<?php echo $users['name'] ?>/<?php echo $users['uID'] ?>" class="user-link text-sm text-info"><?php echo $users['name'] ?></a></td>
+                                <td><a href="/user/profile/<?php echo $users['name'] ?>/<?php echo $users['uID'] ?>" class="user-link text-sm text-info"><?php echo $users['name'] ?></a></td>
                                 <td><?php echo $users['email'] ?></td>
                                 <td><?php echo $users['date'] ?></td>
                                 <?php endif; ?>

@@ -14,11 +14,9 @@ Router::get('/test', callback: function(Http\Request $request, Http\Response $re
 });
 
 Router::get('/auth/accounts/([a-z A-Z]*)/([0-9]*)', function(Http\Request $request, Http\Response $response) {
-    //var_dump($request->params);
     $response->view('user', $request->params);
 });
 
-Router::get('/user/accounts/([a-z A-Z]*)/([0-9]*)', function(Http\Request $request, Http\Response $response) {
-    //var_dump($request->params);
+Router::get('/user/profile/([a-z A-Z]*)/([0-9]*)', function(Http\Request $request, Http\Response $response) {
     $response->view('user', $request->params);
 });
