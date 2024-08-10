@@ -13,6 +13,7 @@ abstract class Controller {
     protected mixed $method = null;
     public ?Request $request;
     public ?Response $response;
+    public mixed $action = 'index';
 
 
     /**
@@ -22,6 +23,12 @@ abstract class Controller {
     {
         $this->request = new Request;
         $this->response = new Response;
+
+        if(method_exists($this, $this->action)) {
+            $this->action = $this->request->getMethod();
+        } else {
+            $this->action = null;
+        }
 
         $getModelPath = str_replace('sController', "", get_called_class());
 

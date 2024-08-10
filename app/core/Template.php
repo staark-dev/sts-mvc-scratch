@@ -4,24 +4,22 @@
 trait Template {
     protected static array $blocks = [];
 
-    private string $cache_path;
-
-    private string $viewsPath;
-
-    private bool $cache_status;
-    
-    public function getCache(string $fileName) {
+    /**
+     * @throws exception
+     */
+    public function getCache(string $fileName): string
+    {
         // Set Global Variables
-        $this->cache_path = app('app', 'cache_path');
-        $this->cache_status = app('app', 'cache_status');
+        $cache_path = app('app', 'cache_path');
+        $cache_status = app('app', 'cache_status');
 
-        if (!file_exists($this->cache_path)) {
-            mkdir($this->cache_path, 0744);
+        if (!file_exists($cache_path)) {
+            mkdir($cache_path, 0744);
         }
 
-        $cached_file = $this->cache_path . str_replace(array('/', '.html'), array('_', ''), $fileName . '.php');
+        $cached_file = $cache_path . str_replace(array('/', '.html'), array('_', ''), $fileName . '.php');
 
-        if (!$this->cache_status || !file_exists($cached_file) || filemtime($cached_file) < filemtime($fileName)) {
+        if (!$cache_status || !file_exists($cached_file) || filemtime($cached_file) < filemtime($fileName)) {
 			$code = $this->includeFiles($fileName);
 			$code = self::compileCode($code);
 	        file_put_contents($cached_file, '<?php class_exists(\'' . __CLASS__ . '\') or exit; ?>' . PHP_EOL . $code);
@@ -30,20 +28,25 @@ trait Template {
 		return $cached_file;
     }
 
-    public function view(string $fileName, array $data = []) {
+    /**
+     * @throws exception
+     */
+    public function view(string $fileName, array $data = []): void
+    {
         $cached_file = $this->getCache($fileName);
         extract($data, EXTR_SKIP);
         require_once $cached_file;
     }
 
-	private function includeFiles($fileName) {
+	private function includeFiles($fileName): array|string|null
+    {
         // Set Global Variables
-        $this->viewsPath = app('app', 'views_path');
+        $viewsPath = app('app', 'views_path');
 
-        if(!file_exists($this->viewsPath . $fileName . '.html'))
+        if(!file_exists($viewsPath . $fileName . '.html'))
             throw new \Exception('Unable to open view file (' . $fileName . ') !', 0);
 
-		$code = file_get_contents($this->viewsPath . $fileName . '.html');
+		$code = file_get_contents($viewsPath . $fileName . '.html');
         //var_dump($code);
 		preg_match_all('/{% ?(extends|include) ?\'?(.*?)\'? ?%}/i', $code, $matches, PREG_SET_ORDER);
 
@@ -74,6 +77,12 @@ trait Template {
 
         $code = preg_replace('/@foreach\(\s*(.*?)\s*\)/is', '<?php foreach($1): ?>', $code);
         $code = preg_replace('/@endforeach/is', '<?php endforeach; ?>', $code);
+
+        $code = preg_replace('/@guest/is', '<?php if(!isset($_SESSION[\'user\'])): ?>', $code);
+        $code = preg_replace('/@endguest/is', '<?php endif; ?>', $code);
+
+        $code = preg_replace('/@auth/is', '<?php if(isset($_SESSION[\'user\'])): ?>', $code);
+        $code = preg_replace('/@endauth/is', '<?php endif; ?>', $code);
 
         $code = preg_replace('/\<\!\-\- BEGIN \s*(.+?)\s*\\-\-\>/is', '<?php if(isset($$1)): ?>', $code);
         $code = preg_replace('/\<\!\-\- END \s*(.+?)\s*\\-\-\>/is', '<?php endif; ?>', $code);

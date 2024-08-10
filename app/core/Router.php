@@ -9,93 +9,112 @@
  */
 use Http\{Response, Request};
 
-
 class Router {
     use Template;
 
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_DELETE = 'DELETE';
+    private static array $routesMap;
 
-    public ?Request $request;
-    public ?Response $response;
-    protected array $routes = [];
-    protected array $params = [];
+    public static function get(string $url, mixed $callback, array &$params = []): void
+    {
+        self::dispatch($url, $callback);
+    }
 
-    public function __construct(Request $request)
+    public static function post(string $url, mixed $callback, array &$params = []): void
+    {
+        self::dispatch($url, $callback);
+    }
+
+    /**
+     * @return void
+     */
+    public static function dispatch(string &$url, mixed &$callback): void
     {
         global $app;
-        $this->request = $request;
-        $this->response = new Response;
-    }
+        $params = $_SERVER['REQUEST_URI'];
+        $params = (stripos($params, "/") !== 0) ? "/" . $params : $params;
+        $regex = str_replace('/', '\/', $url);
+        $is_match = preg_match('/^' . ($regex) . '$/', $params, $matches, PREG_OFFSET_CAPTURE);
 
-    public static function __callStatic($method, $params) {
-        if(method_exists($method)) {
-            var_dump($method);
-            // call_user_func($method, $params);
+        if($is_match) {
+            array_shift($matches);
+
+            $params = array_map(function ($param) {
+                return $param[0];
+            }, $matches);
+
+            if(is_array($callback)) {
+                require "app/Controllers/{$callback[0]}.php";
+
+                $controller = new $callback[0];
+                if(!empty($callback[1]) && method_exists($controller, $callback[1])) {
+                    $controller->action = $callback[1];
+                }
+
+                call_user_func_array([$controller, $controller->action], [new Request($params), new Response()]);
+            }
+
+            if(!is_array($callback))
+                $callback(new Request($params), new Response());
         }
-        return;
+        /*
+        $urlMethod = strtolower($_SERVER['REQUEST_METHOD']);
+
+        if ($is_match) {
+            // first value is normally the route, lets remove it
+            array_shift($matches);
+            // Get the matches as parameters
+            $params = array_map(function ($param) {
+                return $param[0];
+            }, $matches);
+
+            $callback = self::$routesMap[$urlMethod][$url] ?? false;
+            if(isset($callback))
+                var_dump("Not Found this route");
+                self::view('404');
+
+
+
+            if(is_array($callback)) {
+                require "app/Controllers/{$callback[0]}.php";
+
+                $controller = new $callback[0];
+                if(!empty($callback[1]) && method_exists($controller, $callback[1])) {
+                    $controller->action = $callback[1];
+                }
+
+                call_user_func_array([$controller, $controller->action], [new Request($params), new Response()]);
+            } else {
+                $callback(new Request($params), new Response());
+            }
+        }*/
     }
 
-    public function __call($method, $args) {
-        if (method_exists($this, $method)) {
-            return call_user_func_array( array($this, $method), $args);
-        }
-    }
-
-    public function get(string $url, $callback, array $params = []): void
+    public function group(string $url, $callback, array $params = []): bool
     {
-        $this->routes['get'][$url] = $callback;
-        $this->params = $params;
+        return false;
     }
 
+    /*public function get(string $url, $callback, array $params = []): void
+    {
+        self::$routesMap[self::METHOD_GET]['url'] = $url;
+        $this->routes[self::METHOD_GET][$url] = $callback;
+        $this->params[self::METHOD_GET][$url] = $params;
+    }
     public function put(string $url, $callback, array $params = []): void
     {
-        $this->routes['put'][$url] = $callback;
+        $this->routes[self::METHOD_PUT][$url] = $callback;
+        //$this->params[self::METHOD_PUT][$url] = $params;
     }
 
     public function delete(string $url, $callback, array $params = []): void
     {
-        $this->routes['delete'][$url] = $callback;
+        $this->routes[self::METHOD_DELETE][$url] = $callback;
+        //$this->params[self::METHOD_DELETE][$url] = $params;
     }
 
     public function post(string $url, $callback, array $params = []): void
     {
-        $this->routes['post'][$url] = $callback;
-    }
-
-    public function resolve() {
-        global $app;
-        $url = $this->request->getPath();
-        $method = $this->request->getMethod();
-
-        $callback = $this->routes[$method][$url] ?? false;
-
-        if($callback === false)
-            return $this->view('404');
-
-        if(is_string($callback))
-            return $this->view($callback);
-
-        if(!is_array($callback))
-            return call_user_func($callback, $app);
-
-        /**
-         * Call Controller Class
-         * @param Controller::class
-         * @param Controller::method
-         */
-        if(is_array($callback)) {
-            require_once 'app/Controllers/' . $callback[0] . '.php';
-            $controller = new $callback[0];
-            $controllerMethod = $callback[1] ?? 'index';
-
-            if(!empty($controllerMethod) && method_exists($controller, $controllerMethod)) {
-                $controllerMethod = $callback[1];
-            }
-
-            call_user_func_array([$controller, $controllerMethod], [$this->request, $this->response]);
-        }
-    }
+        $this->routes[self::METHOD_POST][$url] = $callback;
+        //$this->params[self::METHOD_POST][$url] = $params;
+    }*/
 }

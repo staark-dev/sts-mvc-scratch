@@ -2,6 +2,12 @@
 namespace Http;
 
 class Request {
+    public array $params = [];
+
+    public function __construct($params = []) {
+        $this->params = $params;
+    }
+
     public function getPath() {
         $path = $_SERVER['REQUEST_URI'] ?? '/';
         $position = strpos($path, '?');
@@ -26,22 +32,22 @@ class Request {
         return $this->getMethod() === 'post';
     }
 
-    public function getBodyData()
+    public function getBodyData(): array
     {
-        $data = [];
-
         if ($this->isGet()) {
             foreach ($_GET as $key => $value) {
-                $data[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+                $this->params[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
+
+            return $this->params;
         }
 
         if ($this->isPost()) {
             foreach ($_POST as $key => $value) {
-                $data[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+                $this->params[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
         }
 
-        return $data ?? [];
+        return $this->params;
     }
 }
