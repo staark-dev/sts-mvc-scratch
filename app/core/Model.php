@@ -11,9 +11,10 @@ use Database as DB;
 abstract class Model {
     public ?Request $request;
     public ?Response $response;
-    protected $table;
-    protected $allowedColumns = [];
-    public $db = null;
+    public ?Database $db = null;
+    protected string $table;
+    protected array $allowedColumns = [];
+    public array $errors = [];
     
     public function __call($name, $args)
     {
@@ -27,6 +28,7 @@ abstract class Model {
         $this->request = new Request;
         $this->response = new Response;
         $this->db = new DB;
+        $this->errors = [];
     }
     
 

@@ -15,7 +15,6 @@ abstract class Controller {
     public ?Response $response;
     public mixed $action = 'index';
 
-
     /**
      * @throws Exception
      */
@@ -23,14 +22,13 @@ abstract class Controller {
     {
         $this->request = new Request;
         $this->response = new Response;
+        $this->model = null;
 
         if(method_exists($this, $this->action)) {
             $this->action = $this->request->getMethod();
         } else {
             $this->action = null;
         }
-
-        $getModelPath = str_replace('sController', "", get_called_class());
 
         /**
          * Autoload models for controllers
@@ -39,10 +37,23 @@ abstract class Controller {
          * @param $middleware
          */
         $this->registerHandler([
-            'Model' => $getModelPath,
+            'Model' => get_called_class(),
             'Middleware' => null,
             'Method' => null
         ]);
+
+        /**
+         * Auto register model not work perfect
+         *
+         */
+        /*$model = explode("\\", get_called_class());
+        if(isset($model[1])) {
+            $model[1] = str_replace(['Controller', 'sController'], "", $model[1]);
+            $this->model = $this->loadModel($model[1]);
+        } else {
+            $model[0] = str_replace(['Controller', 'sController'], "", $model[0]);
+            $this->model = $this->loadModel($model[0]);
+        }*/
     }
 
     /**
@@ -53,14 +64,29 @@ abstract class Controller {
         foreach ($action as $actions => $method) {
             switch ($actions) {
                 case 'Model':
-                    if(!file_exists("{$path}Models/{$method}.php"))
+                    $model = explode("\\", $method);
+
+                    if(is_array($model)) {
+                        if(isset($model[1])) {
+                            $model[1] = str_replace('sController', "", $model[1]);
+                            $model[1] = str_replace('Controller', "", $model[1]);
+                            $model = $model[1];
+                        } else {
+                            $model[0] = str_replace(['sController', 'Controller'], "", $model[0]);
+                            $model = $model[0];
+                        }
+                    }
+
+                    $modelPath = "{$path}Models/{$model}.php";
+
+                    if(!file_exists($modelPath))
                     {
                         $this->model = null;
                         return false;
+                    } else {
+                        require $modelPath;
+                        $this->model = new $model();
                     }
-
-                    require $m = "{$path}Models/{$method}.php";
-                    $this->model = new $method();
                     break;
 
                 case 'Method':

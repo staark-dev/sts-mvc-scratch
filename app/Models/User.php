@@ -5,8 +5,8 @@ use Http\{Request, Response};
  */
 class User extends Model {
 
-    protected $table = 'accounts'; // Default is 'users'
-    protected $allowedColumns = [
+    protected string $table = 'accounts'; // Default is 'users'
+    protected array $allowedColumns = [
         'name',
         'email',
         'passwords'

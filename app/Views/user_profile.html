@@ -1,6 +1,6 @@
 {% extends layouts/layout %}
 
-{% block title %} - View user profile - @user(name) {% endblock %}
+{% block title %} - View Profile - Auth('user') {% endblock %}
 {% block content %}
 <div class="container mt-5">
     <div class="row align-items-center">
@@ -10,7 +10,8 @@
             </div>
             <div style="text-align: center;">
                 <h4 class="text text-white"><strong>@user(name)</strong></h4>
-                <span class="text text-sm text-white">Join: @user(date)</span><br>
+                <span class="text text-sm text-white">Join Date: {% date("d/m/Y", strtotime($data['date'])); %}</span><br>
+                {% ($data['status']) ? '<span class="text text-sm text-success">Account Active</span>' : '<span class="text text-sm text-danger">Account Inactive</span>'; %}<br>
                 <span class="text text-sm text-white">
                     <a class="fs-5 text-white" href="mailto:@user(email)"><i class="bi bi-envelope-at-fill"></i></a>
                     <i class="fs-5 text-white bi bi-browser-edge"></i>

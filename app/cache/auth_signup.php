@@ -23,7 +23,7 @@
 
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li>
-                        <a href="/" class="nav-link text-secondary">
+                        <a href="#" class="nav-link text-secondary">
                             <i class="bi bi-house-door d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
                             Home
                         </a>
@@ -37,20 +37,20 @@
                     </li>
 
                     <li>
-                        <a href="/users" class="nav-link text-white">
+                        <a href="#" class="nav-link text-white">
                             <i class="bi bi-person-circle d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
                             Customers
                         </a>
                     </li>
 
                     <li>
-                        <a href="#faq" class="nav-link text-white">
+                        <a href="#" class="nav-link text-white">
                             <i class="bi bi-question-circle-fill d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
                             FAQs
                         </a>
                     </li>
                     <li>
-                        <a href="#calendar" class="nav-link text-white">
+                        <a href="#" class="nav-link text-white">
                             <i class="bi bi-calendar-event d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
                             Calendar
                         </a>
@@ -70,7 +70,7 @@
                 <a href="<?php echo baseurl() ?>/auth/login" class="btn btn-light text-dark me-2">Login</a>
                 <a href="<?php echo baseurl() ?>/auth/signup" class="btn btn-primary">Sign-up</a>
                 <?php else: ?>
-                <a href="http://127.0.2.36/auth/accounts/User/2" class="btn btn-light text-dark me-2"><?php echo $_SESSION['user_session']['user']; ?></a>
+                <a href="http://127.0.2.36/auth//profile" class="btn btn-light text-dark me-2"><?php echo $data['name']; ?></a>
                 <a href="<?php echo baseurl() ?>/auth/sign-out" class="btn btn-primary">Sign Out</a>
                 <?php endif; ?>
             </div>
@@ -79,40 +79,34 @@
 </header>
     <div class="container-fluid">
         
-<div class="container my-5 py-2">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <h4>List of all users Created !</h4>
-                <table id="mytable" class="table table-bordred table-striped">
-                    <thead>
-                        <th><input type="checkbox" id="checkall" /></th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Register</th>
+    <div class="container my-5 py-2">
+        <div class="row">
+            <div class="col-md-6 card-header">
+                <h3 class="text text-info">Account Manager - Sign Up</h3>
+                <h5><a href="<?=baseurl();?>"> Back to home</a></h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <form action="<?=baseurl();?>/auth/accounts/create" method="post">
+                    <div class="row">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="" />
+                    </div>
 
-                        <th>Edit</th>
-                        <th>Delete</th>
-                </thead>
-                <tbody>
-                        <?php foreach($data as $users): ?>
-                            <tr id="user-<?php echo $users['uID'] ?>">
-                                <td><input type="checkbox" class="checkthis" id="<?php echo $users['uID'] ?>" /></td>
-                                <?php if(strcmp($users['uID'], 0)): ?>
-                                <td><a href="/user/profile/<?php echo $users['name'] ?>/<?php echo $users['uID'] ?>" class="user-link text-sm text-info"><?php echo $users['name'] ?></a></td>
-                                <td><?php echo $users['email'] ?></td>
-                                <td><?php echo $users['date'] ?></td>
-                                <?php endif; ?>
-                                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-                                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                            </tr>
-                        <?php endforeach; ?>
-                </tbody>
-                </table>
+                    <div class="row mt-2">
+                        <label for="email">Mail</label>
+                        <input type="email" class="form-control" name="email" id="" />
+                    </div>
+                    <input type="hidden" name="date" value="<?=date("Y-m-d H:i:s");?>" />
+                    <br>
+                    <div class="row m-2">
+                        <button class="btn btn-sm btn-primary my-2" type="submit">Send</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
 
     </div>
 </body>

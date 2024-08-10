@@ -13,36 +13,70 @@
     <script src="<?php echo baseurl() ?>/public/assets/bootstrap/js/main.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="<?php echo baseurl() ?>"><?php echo navbar() ?></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <header>
+    <div class="px-3 py-2 text-bg-dark border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img width="85" height="65" src="/public/sts-logo.svg" alt=""/>
+                </a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?php echo baseurl() ?>"><i class="bi bi-house-door"></i> Home</a>
-                </li>
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                        <a href="/" class="nav-link text-secondary">
+                            <i class="bi bi-house-door d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Home
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo baseurl() ?>/users"><i class="bi bi-people-fill"></i> Users</a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            <i class="bi bi-speedometer2 d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Pricing
+                        </a>
+                    </li>
 
-            <ul class="navbar-nav me-0 mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo baseurl() ?>/auth/login"><i class="bi bi-person-lock text-sm"></i> Login</a>
-                </li>
+                    <li>
+                        <a href="/users" class="nav-link text-white">
+                            <i class="bi bi-person-circle d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Customers
+                        </a>
+                    </li>
 
-                <li class="nav-item bg-success rounded">
-                    <a class="nav-link bg-success rounded text-white" href="<?php echo baseurl() ?>/auth/accounts"><i class="bi bi-person-add"></i> Sign Up</a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="#faq" class="nav-link text-white">
+                            <i class="bi bi-question-circle-fill d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            FAQs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#calendar" class="nav-link text-white">
+                            <i class="bi bi-calendar-event d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Calendar
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</nav>
+
+    <div class="px-3 py-2 border-bottom mb-3">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+            <div class="text-end">
+                <?php if(!isset($_SESSION['user'])): ?>
+                <a href="<?php echo baseurl() ?>/auth/login" class="btn btn-light text-dark me-2">Login</a>
+                <a href="<?php echo baseurl() ?>/auth/signup" class="btn btn-primary">Sign-up</a>
+                <?php else: ?>
+                <a href="http://127.0.2.36/auth/accounts/User/2" class="btn btn-light text-dark me-2"><?php echo $_SESSION['user_session']['user']; ?></a>
+                <a href="<?php echo baseurl() ?>/auth/sign-out" class="btn btn-primary">Sign Out</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</header>
     <div class="container-fluid">
         
 <div class="container my-5">

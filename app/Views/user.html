@@ -1,0 +1,16 @@
+{% extends layouts/layout %}
+@guest
+{% block title %} - View Profile{% endblock %}
+@endguest
+@auth
+{% block title %} - User Settings{% endblock %}
+@endauth
+{% block content %}
+<div class="container my-5">
+    @auth
+    Hi, {% $data[0] %}
+    @endauth
+    Welcome to @guest {% $data[0] %} User Profile @endguest
+
+</div>
+{% endblock %}

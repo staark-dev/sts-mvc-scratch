@@ -63,6 +63,7 @@ class Router {
                 require "app/Controllers/{$callback[0]}.php";
 
                 $controller = new $callback[0];
+
                 if(!empty($callback[1]) && method_exists($controller, $callback[1])) {
                     $controller->action = $callback[1];
                 }

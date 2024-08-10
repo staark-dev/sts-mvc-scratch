@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo navbar() ?>  - User Management</title>
+    <title><?php echo navbar() ?>  - View Profile - <?php echo $_SESSION['user_session']['user']; ?> </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -79,37 +79,25 @@
 </header>
     <div class="container-fluid">
         
-<div class="container my-5 py-2">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <h4>List of all users Created !</h4>
-                <table id="mytable" class="table table-bordred table-striped">
-                    <thead>
-                        <th><input type="checkbox" id="checkall" /></th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Register</th>
-
-                        <th>Edit</th>
-                        <th>Delete</th>
-                </thead>
-                <tbody>
-                        <?php foreach($data as $users): ?>
-                            <tr id="user-<?php echo $users['uID'] ?>">
-                                <td><input type="checkbox" class="checkthis" id="<?php echo $users['uID'] ?>" /></td>
-                                <?php if(strcmp($users['uID'], 0)): ?>
-                                <td><a href="/user/profile/<?php echo $users['name'] ?>/<?php echo $users['uID'] ?>" class="user-link text-sm text-info"><?php echo $users['name'] ?></a></td>
-                                <td><?php echo $users['email'] ?></td>
-                                <td><?php echo $users['date'] ?></td>
-                                <?php endif; ?>
-                                <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
-                                <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-                            </tr>
-                        <?php endforeach; ?>
-                </tbody>
-                </table>
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-sm-3 left-side align-items-center p-3 my-0">
+            <div class="my-2 p-2">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" class="card-img-top" alt="..." />
             </div>
+            <div style="text-align: center;">
+                <h4 class="text text-white"><strong><?php echo $data['name']; ?></strong></h4>
+                <span class="text text-sm text-white">Join Date: <?php echo date("d/m/Y", strtotime($data['date'])); ?></span><br>
+                <?php echo ($data['status']) ? '<span class="text text-sm text-success">Account Active</span>' : '<span class="text text-sm text-danger">Account Inactive</span>'; ?><br>
+                <span class="text text-sm text-white">
+                    <a class="fs-5 text-white" href="mailto:<?php echo $data['email']; ?>"><i class="bi bi-envelope-at-fill"></i></a>
+                    <i class="fs-5 text-white bi bi-browser-edge"></i>
+                    <i class="fs-5 bi bi-telephone-forward"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-8 right-side align-items-left">
+            Other Profile Info
         </div>
     </div>
 </div>
@@ -117,4 +105,5 @@
     </div>
 </body>
 </html>
+
 

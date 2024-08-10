@@ -13,4 +13,9 @@ class Response extends Redirect {
     public function back() {
         header("Location: /");
     }
+
+    public function to(string $link) {
+        header("Location: {$link}");
+        exit;
+    }
 }

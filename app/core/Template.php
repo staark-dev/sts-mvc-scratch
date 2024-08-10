@@ -78,7 +78,13 @@ trait Template {
         $code = preg_replace('/@foreach\(\s*(.*?)\s*\)/is', '<?php foreach($1): ?>', $code);
         $code = preg_replace('/@endforeach/is', '<?php endforeach; ?>', $code);
 
+        if (isset($_SESSION['user_session']) || isset($_SESSION['user'])) {
+            $code = preg_replace('/Auth\(\'\s*(.*?)\s*\'\)/is', '<?php echo $_SESSION[\'user_session\'][\'$1\']; ?>', $code);
+            $code = preg_replace('/\{{(\s*)userlink(\s*)\}}/is',baseurl() . "/auth/accounts/{$_SESSION['user']}/{$_SESSION['user_session']['id']}" , $code);
+        }
+
         $code = preg_replace('/@guest/is', '<?php if(!isset($_SESSION[\'user\'])): ?>', $code);
+        $code = preg_replace('/@user/is', '<?php else: ?>', $code);
         $code = preg_replace('/@endguest/is', '<?php endif; ?>', $code);
 
         $code = preg_replace('/@auth/is', '<?php if(isset($_SESSION[\'user\'])): ?>', $code);
@@ -94,7 +100,8 @@ trait Template {
      * @param string $code
      * @return {% code %}
      */
-    static function compileEchos($code) {
+    static function compileEchos($code): array|string|null
+    {
         return preg_replace('~\{%\s*(.+?)\s*\%}~is', '<?php echo $1 ?>', $code);
     }
 
@@ -102,7 +109,8 @@ trait Template {
      * @param string $code
      * @return {% code %}
      */
-    static function compileEscapedEchos($code) {
+    static function compileEscapedEchos($code): array|string|null
+    {
         return preg_replace('~\{{{\s*(.+?)\s*\}}}~is', '<?php echo htmlentities($1, ENT_QUOTES, \'UTF-8\') ?>', $code);
     }
 
@@ -112,7 +120,8 @@ trait Template {
      * @return {% block function %}
      * @return {% endblock %}
      */
-    static function compileBlock($code) {
+    static function compileBlock($code): array|string
+    {
 		preg_match_all('/{% ?block ?(.*?) ?%}(.*?){% ?endblock ?%}/is', $code, $matches, PREG_SET_ORDER);
 		foreach ($matches as $value) {
 			if (!array_key_exists($value[1], self::$blocks)) self::$blocks[$value[1]] = '';

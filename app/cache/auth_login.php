@@ -13,65 +13,93 @@
     <script src="<?php echo baseurl() ?>/public/assets/bootstrap/js/main.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="<?php echo baseurl() ?>"><?php echo navbar() ?></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <header>
+    <div class="px-3 py-2 text-bg-dark border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img width="85" height="65" src="/public/sts-logo.svg" alt=""/>
+                </a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?php echo baseurl() ?>"><i class="bi bi-house-door"></i> Home</a>
-                </li>
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                        <a href="/" class="nav-link text-secondary">
+                            <i class="bi bi-house-door d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Home
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo baseurl() ?>/users"><i class="bi bi-people-fill"></i> Users</a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="#" class="nav-link text-white">
+                            <i class="bi bi-speedometer2 d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Pricing
+                        </a>
+                    </li>
 
-            <ul class="navbar-nav me-0 mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo baseurl() ?>/auth/login"><i class="bi bi-person-lock text-sm"></i> Login</a>
-                </li>
+                    <li>
+                        <a href="/users" class="nav-link text-white">
+                            <i class="bi bi-person-circle d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Customers
+                        </a>
+                    </li>
 
-                <li class="nav-item bg-success rounded">
-                    <a class="nav-link bg-success rounded text-white" href="<?php echo baseurl() ?>/auth/accounts"><i class="bi bi-person-add"></i> Sign Up</a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="#faq" class="nav-link text-white">
+                            <i class="bi bi-question-circle-fill d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            FAQs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#calendar" class="nav-link text-white">
+                            <i class="bi bi-calendar-event d-block mx-auto mb-1" style="width: 24px; height: 24px; font-size: 24px;"></i>
+                            Calendar
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</nav>
+
+    <div class="px-3 py-2 border-bottom mb-3">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+            <div class="text-end">
+                <?php if(!isset($_SESSION['user'])): ?>
+                <a href="<?php echo baseurl() ?>/auth/login" class="btn btn-light text-dark me-2">Login</a>
+                <a href="<?php echo baseurl() ?>/auth/signup" class="btn btn-primary">Sign-up</a>
+                <?php else: ?>
+                <a href="{{ userlink }}" class="btn btn-light text-dark me-2">Auth('user')</a>
+                <a href="<?php echo baseurl() ?>/auth/sign-out" class="btn btn-primary">Sign Out</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</header>
     <div class="container-fluid">
         
-    <div class="container my-5 py-2">
-        <div class="row">
-            <div class="col-md-6 card-header">
-                <h3 class="text text-info">Account Manager - Login</h3>
-                <h5><a href="<?=baseurl();?>"> Back to home</a></h5>
+<div class="container my-5 py-2">
+    <form action="<?php echo baseurl() ?>/auth/login" method="post" accept-charset="UTF-8">
+        <div class="mb-3">
+            <label for="inputEmail" class="form-label">Email address</label>
+            <input type="email" name="user_email" class="form-control" id="inputEmail" aria-describedby="emailHelp" required />
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="passwordBlock" class="form-label">Password</label>
+            <input type="password" name="user_password" class="form-control" id="passwordBlock"  aria-describedby="passwordHelpBlock" required />
+            <div id="passwordHelpBlock" class="form-text">
+                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <form action="<?php echo baseurl() ?>/auth/login" method="post">
-                    <div class="row">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="" />
-                    </div>
-
-                    <div class="row mt-2">
-                        <label for="email">Mail</label>
-                        <input type="email" class="form-control" name="email" id="" />
-                    </div>
-                    <br>
-                    <div class="row m-2">
-                        <button class="btn btn-sm btn-primary my-2" type="submit">Send</button>
-                    </div>
-                </form>
-            </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
-    </div>
+        <button type="submit" class="btn btn-primary">Confirm identity</button>
+    </form>
+</div>
 
     </div>
 </body>
