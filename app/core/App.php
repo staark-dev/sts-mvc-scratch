@@ -37,11 +37,17 @@ class App {
                         } else throw new \Exception('Unexpected method call');
                     } else {
                         return new $method;
-                        //call_user_func($handler);
                     }
 
                     break;
 
+                case 'Helpers':
+                    var_dump($method);
+                    if(is_array($method)) {
+                        var_dump("List");
+                    }
+
+                    break;
                 default:
                     throw new \Exception('Unexpected value');
             }

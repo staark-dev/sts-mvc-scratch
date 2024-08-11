@@ -30,7 +30,8 @@ try {
     $app->registerHandler([
         'Router' => Router::class,
         'Session' => SessionHandler::class,
-        'Database' => Database::class
+        'Database' => Database::class,
+        'Helpers' => ['functions', 'constants']
     ], 'app/core/');
 } catch (Exception $e) {
     echo "[STS Logs]: " . $e->getMessage();

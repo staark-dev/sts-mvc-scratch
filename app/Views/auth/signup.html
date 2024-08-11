@@ -1,32 +1,64 @@
 {% extends layouts/layout %}
-{% block title %} - User Management{% endblock %}
+{% block title %} - User Sign Up{% endblock %}
 {% block content %}
-    <div class="container my-5 py-2">
-        <div class="row">
-            <div class="col-md-6 card-header">
-                <h3 class="text text-info">Account Manager - Sign Up</h3>
-                <h5><a href="<?=baseurl();?>"> Back to home</a></h5>
+<div class="container py-2">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col mx-1 pt-1">
+                    Create an account right now!
+                </div>
+                
+                <div class="d-flex justify-content-end col">
+                    <span class="mx-1 pt-1">or sign up with: </span>
+                    <a href="@api_route('google')" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-google"></i></a>
+                    <a href="@api_route('apple')" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-apple"></i></a>
+                    <a href="@api_route('github')" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-github"></i></a>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <form action="<?=baseurl();?>/auth/accounts/create" method="post">
-                    <div class="row">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="" />
-                    </div>
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <form action="{{ home_url() }}/auth/signup" method="post" accept-charset="UTF-8">
+                        <div class="row">
+                            <div class="mb-3 col col-md-6">
+                                <label for="inputName" class="form-label">User Name</label>
+                                <input type="text" name="user_name" class="form-control" id="inputName" required />
+                            </div>
+    
+                            <div class="col col-md-6 mb-3">
+                                <label for="inputNameDisplay" class="form-label">Display Name</label>
+                                <input type="text" name="user_nameDisplay" class="form-control" id="inputNameDisplay" required />
+                            </div>
+                        </div>
 
-                    <div class="row mt-2">
-                        <label for="email">Mail</label>
-                        <input type="email" class="form-control" name="email" id="" />
-                    </div>
-                    <input type="hidden" name="date" value="<?=date("Y-m-d H:i:s");?>" />
-                    <br>
-                    <div class="row m-2">
-                        <button class="btn btn-sm btn-primary my-2" type="submit">Send</button>
-                    </div>
-                </form>
+                        <div class="mb-3">
+                            <label for="inputEmail" class="form-label">Email address</label>
+                            <input type="email" name="user_email" class="form-control" id="inputEmail" aria-describedby="emailHelp" required />
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label">Password</label>
+                            <input type="password" name="user_password" class="form-control" id="inputPassword" aria-describedby="passwordHelpBlock" required />
+                            <div id="passwordHelpBlock" class="form-text">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inputPasswordConfirm" class="form-label">Confirm Password</label>
+                            <input type="password" name="user_password_confirm" class="form-control" id="inputPasswordConfirm" aria-describedby="passwordHelpBlock" required />
+                            <div id="passwordHelpBlock" class="form-text">Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.</div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="button" data-mdb-button-init="" data-mdb-ripple-init=""  style="width: 70%" class="btn btn-primary btn-block mb-4" data-mdb-button-initialized="true">Sign up</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+            <div class="d-flex justify-content-center mt-3">Already have an account?&nbsp;&nbsp;<a href="{{ home_url() }}/auth/login">Login here</a></div>
         </div>
     </div>
+</div>
 {% endblock %}

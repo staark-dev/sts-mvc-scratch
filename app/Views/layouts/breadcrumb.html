@@ -1,0 +1,9 @@
+{{ if($_SERVER['REQUEST_URI'] !== "/"): }}
+<div class="container mt-5">
+    <nav aria-label="breadcrumb" class="main-breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            {{ breadcrumbs() }}
+        </ol>
+    </nav>
+</div>
+{{ endif; }}

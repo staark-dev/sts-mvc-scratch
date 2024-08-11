@@ -62,7 +62,7 @@
 
     <div class="px-3 py-2 border-bottom mb-3">
         <div class="container d-flex flex-wrap justify-content-center">
-            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+            <form class="w-50 me-3 col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
                 <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
             </form>
             <div class="text-end">
@@ -70,14 +70,37 @@
                 <a href="<?php echo baseurl() ?>/auth/login" class="btn btn-light text-dark me-2">Login</a>
                 <a href="<?php echo baseurl() ?>/auth/signup" class="btn btn-primary">Sign-up</a>
                 <?php else: ?>
-                <a href="http://127.0.2.36/auth/accounts/Admin/1" class="btn btn-light text-dark me-2"><?php echo $_SESSION['user_session']['user']; ?></a>
-                <a href="<?php echo baseurl() ?>/auth/sign-out" class="btn btn-primary">Sign Out</a>
+                <div class="flex-shrink-0 dropdown">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+
+                    <ul class="dropdown-menu text-small shadow" style="">
+                        <li><a class="dropdown-item" href="#">Inbox</a></li>
+                        <li><a class="dropdown-item" href="<?php userlink ?>/settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="<?php userlink ?>">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?php echo baseurl() ?>/auth/sign-out">Sign out</a></li>
+                    </ul>
+                </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 </header>
     <div class="container-fluid">
+        <!-- Breadcrumb -->
+        <?php if($_SERVER['REQUEST_URI'] !== "/"): ?>
+<div class="container mt-5">
+    <nav aria-label="breadcrumb" class="main-breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            <?php breadcrumbs() ?>
+        </ol>
+    </nav>
+</div>
+<?php endif; ?>
+        <!-- /Breadcrumb -->
         
 <div class="container my-5 py-2">
     <div class="row">

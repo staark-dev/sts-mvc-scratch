@@ -47,7 +47,6 @@ trait Template {
             throw new \Exception('Unable to open view file (' . $fileName . ') !', 0);
 
 		$code = file_get_contents($viewsPath . $fileName . '.html');
-        //var_dump($code);
 		preg_match_all('/{% ?(extends|include) ?\'?(.*?)\'? ?%}/i', $code, $matches, PREG_SET_ORDER);
 
 		foreach ($matches as $value) {
@@ -92,7 +91,10 @@ trait Template {
 
         $code = preg_replace('/\<\!\-\- BEGIN \s*(.+?)\s*\\-\-\>/is', '<?php if(isset($$1)): ?>', $code);
         $code = preg_replace('/\<\!\-\- END \s*(.+?)\s*\\-\-\>/is', '<?php endif; ?>', $code);
+        $code = preg_replace('/\{\{\s*(.+?)\s*\}\}/is', '<?php $1 ?>', $code);
 
+        // API Routes !
+        $code = preg_replace('/@api_route\(\'\s*(.*?)\s*\'\)/is', home_url() . '/api/login_signup/$1', $code);
         return $code;
     }
 

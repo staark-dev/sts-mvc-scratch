@@ -1,0 +1,11 @@
+{% extends layouts/layout %}
+{% block title %} - User Sign Social{% endblock %}
+{% block content %}
+<div class="container py-2">
+    <div class="card">
+        <div class="card-body">
+            Login with {{ echo ucfirst($data['method']); }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo navbar() ?>  - User Settings</title>
+    <title><?php echo navbar() ?>  - User Sign Social</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -102,20 +102,15 @@
 <?php endif; ?>
         <!-- /Breadcrumb -->
         
-<div class="container my-5">
-    <?php if(isset($_SESSION['user'])): ?>
-    Hi, <?php echo $data[0] ?>
-    <?php endif; ?>
-    Welcome to <?php if(!isset($_SESSION['user'])): ?> <?php echo $data[0] ?> User Profile <?php endif; ?>
-
+<div class="container py-2">
+    <div class="card">
+        <div class="card-body">
+            Login with <?php echo ucfirst($data['method']); ?>
+        </div>
+    </div>
 </div>
 
     </div>
 </body>
 </html>
-<?php if(!isset($_SESSION['user'])): ?>
 
-<?php endif; ?>
-<?php if(isset($_SESSION['user'])): ?>
-
-<?php endif; ?>

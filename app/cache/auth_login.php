@@ -62,7 +62,7 @@
 
     <div class="px-3 py-2 border-bottom mb-3">
         <div class="container d-flex flex-wrap justify-content-center">
-            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+            <form class="w-50 me-3 col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
                 <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
             </form>
             <div class="text-end">
@@ -70,35 +70,92 @@
                 <a href="<?php echo baseurl() ?>/auth/login" class="btn btn-light text-dark me-2">Login</a>
                 <a href="<?php echo baseurl() ?>/auth/signup" class="btn btn-primary">Sign-up</a>
                 <?php else: ?>
-                <a href="{{ userlink }}" class="btn btn-light text-dark me-2">Auth('user')</a>
-                <a href="<?php echo baseurl() ?>/auth/sign-out" class="btn btn-primary">Sign Out</a>
+                <div class="flex-shrink-0 dropdown">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+
+                    <ul class="dropdown-menu text-small shadow" style="">
+                        <li><a class="dropdown-item" href="#">Inbox</a></li>
+                        <li><a class="dropdown-item" href="<?php userlink ?>/settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="<?php userlink ?>">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="<?php echo baseurl() ?>/auth/sign-out">Sign out</a></li>
+                    </ul>
+                </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 </header>
     <div class="container-fluid">
+        <!-- Breadcrumb -->
+        <?php if($_SERVER['REQUEST_URI'] !== "/"): ?>
+<div class="container mt-5">
+    <nav aria-label="breadcrumb" class="main-breadcrumb">
+        <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+            <?php breadcrumbs() ?>
+        </ol>
+    </nav>
+</div>
+<?php endif; ?>
+        <!-- /Breadcrumb -->
         
-<div class="container my-5 py-2">
-    <form action="<?php echo baseurl() ?>/auth/login" method="post" accept-charset="UTF-8">
-        <div class="mb-3">
-            <label for="inputEmail" class="form-label">Email address</label>
-            <input type="email" name="user_email" class="form-control" id="inputEmail" aria-describedby="emailHelp" required />
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <div class="mb-3">
-            <label for="passwordBlock" class="form-label">Password</label>
-            <input type="password" name="user_password" class="form-control" id="passwordBlock"  aria-describedby="passwordHelpBlock" required />
-            <div id="passwordHelpBlock" class="form-text">
-                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+<div class="container py-2">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col mx-1 pt-1">
+                    Sign in to your account!
+                </div>
+                
+                <div class="d-flex justify-content-end col">
+                    <span class="mx-1 pt-1">or sign up with: </span>
+                    <a href="http://127.0.2.36/api/login_signup/google" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-google"></i></a>
+                    <a href="http://127.0.2.36/api/login_signup/apple" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-apple"></i></a>
+                    <a href="http://127.0.2.36/api/login_signup/github" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-github"></i></a>
+                </div>
             </div>
         </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        <div class="card-body">
+            <div class="row">
+                <div class="col col-md-8 col-lg d-flex justify-content-center">
+                    <form action="<?php echo baseurl() ?>/auth/login" method="post" accept-charset="UTF-8">
+                        <div class="mb-3">
+                            <label for="inputEmail" class="form-label">Email address</label>
+                            <input type="email" name="user_email" class="form-control" id="inputEmail" aria-describedby="emailHelp" required />
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordBlock" class="form-label">Password</label>
+                            <input type="password" name="user_password" class="form-control" id="passwordBlock"  aria-describedby="passwordHelpBlock" required />
+                            <div id="passwordHelpBlock" class="form-text">
+                                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col d-flex justify-content-center">
+                                <!-- Checkbox -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="save_login" checked />
+                                    <label class="form-check-label" for="save_login"> Remember me </label>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-center">
+                                <!-- Simple link -->
+                                <a href="#!">Forgot password?</a>
+                            </div>
+                            <div class="d-flex justify-content-center mt-3">
+                                <button type="button" data-mdb-button-init="" data-mdb-ripple-init=""  style="width: 70%" class="btn btn-primary btn-block mb-4" data-mdb-button-initialized="true">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">Don't have an account?&nbsp;&nbsp;<a href="<?php home_url() ?>/auth/signup">Register here</a></div>
         </div>
-        <button type="submit" class="btn btn-primary">Confirm identity</button>
-    </form>
+    </div>
 </div>
 
     </div>
