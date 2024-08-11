@@ -16,11 +16,44 @@ STS MVC is perfect for developers who want to maintain control over their codeba
 ### Getting Started
 To get started with STS MVC, check out the documentation for installation instructions, usage examples, and more.
 
-### Functions & Loaders
-```
-Controller
-Models
-View
-Autoload Models
-Autoregister Routes
-```
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/username/STS-MVC.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+    cd STS-MVC
+   ```
+4. Install dependencies using Composer:
+   ```bash
+   composer install
+    ```
+6. Configure your environment (e.g., .env file).
+7. Run the built-in PHP server:
+   ```bash
+   php -S localhost:8000 -t public
+   ``` 
+9. Open your browser and go to `http://localhost:8000` to see your application.
+
+### 5. **Usage**
+   - O secțiune care descrie cum să începi să folosești framework-ul, incluzând exemple de cod simple pentru a crea rute, modele și vederi.
+
+### 6. **Documentație**
+   - Include un link către documentația completă, dacă există, pentru utilizatori care vor să exploreze mai în detaliu toate funcționalitățile framework-ului.
+   - Ex: `[Full Documentation](link-catre-documentatie)`
+
+### 7. **Contribuție**
+   - O secțiune despre cum utilizatorii pot contribui la proiect (PR-uri, probleme, cod de conduită). Ex:
+
+## Contributing
+
+We welcome contributions! Please see our [contributing guidelines](link-catre-contribuitie) for more details.
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](link-catre-licenta) file for details.
+
