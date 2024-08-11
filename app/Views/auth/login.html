@@ -19,6 +19,9 @@
         </div>
         <div class="card-body">
             <div class="row">
+                <!-- Alerts -->
+                {% include components/alerts/alert %}
+                <!-- /Alerts -->
                 <div class="col col-md-8 col-lg d-flex justify-content-center">
                     <form action="{% baseurl() %}/auth/login" method="post" accept-charset="UTF-8">
                         <div class="mb-3">
@@ -46,7 +49,9 @@
                                 <a href="#!">Forgot password?</a>
                             </div>
                             <div class="d-flex justify-content-center mt-3">
-                                <button type="button" data-mdb-button-init="" data-mdb-ripple-init=""  style="width: 70%" class="btn btn-primary btn-block mb-4" data-mdb-button-initialized="true">Sign in</button>
+                                <input type="submit" style="width: 70%" class="btn btn-primary btn-block mb-4" value="Sign In" />
+                                <input type="hidden" name="csfr_key" value="{{ echo session_id(); }}" />
+                                <input type="hidden" name="csfr_ref" value="login" />
                             </div>
                         </div>
                     </form>

@@ -5,22 +5,24 @@ use http\Env\Response;
 use Http\Request;
 
 class AuthController extends \Controller {
+    public array $errors = [];
     /**
      * @throws \exception
      */
     public function loginIndex() {
-        $this->view('auth/login', $this->model->errors ?? []);
+        $this->view('auth/login');
     }
 
     /**
      * @throws \exception
      */
     public function signupIndex() {
-        $this->view('auth/signup', $this->model->errors ?? []);
+        $this->view('auth/signup');
     }
 
     public function login() {
         $this->model->loginSave();
+        \Sessions::delete('login_errors');
     }
 
     public function create() {

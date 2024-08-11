@@ -79,7 +79,7 @@ trait Template {
 
         if (isset($_SESSION['user_session']) || isset($_SESSION['user'])) {
             $code = preg_replace('/Auth\(\'\s*(.*?)\s*\'\)/is', '<?php echo $_SESSION[\'user_session\'][\'$1\']; ?>', $code);
-            $code = preg_replace('/\{{(\s*)userlink(\s*)\}}/is',baseurl() . "/auth/accounts/{$_SESSION['user']}/{$_SESSION['user_session']['id']}" , $code);
+            $code = preg_replace('/\{{(\s*)userlink(\s*)\}}/is', "<?php echo '". baseurl() ."/auth/accounts/{$_SESSION['user']}/{$_SESSION['user_session']['id']}'; ?>" , $code);
         }
 
         $code = preg_replace('/@guest/is', '<?php if(!isset($_SESSION[\'user\'])): ?>', $code);

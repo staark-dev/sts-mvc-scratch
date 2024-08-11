@@ -120,6 +120,15 @@
         </div>
         <div class="card-body">
             <div class="row justify-content-center">
+                <!-- Alerts -->
+                <?php if(Sessions::get('login_errors') == true): ?>
+<div class="row d-flex justify-content-center">
+    <div class="col-8 alert alert-danger" role="alert">
+        <?php Sessions::showErrors('login_errors'); ?>
+    </div>
+</div>
+<?php endif; ?>
+                <!-- /Alerts -->
                 <div class="col-10">
                     <form action="<?php home_url() ?>/auth/signup" method="post" accept-charset="UTF-8">
                         <div class="row">

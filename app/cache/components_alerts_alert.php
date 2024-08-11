@@ -1,10 +1,10 @@
-<?php class_exists('Controller') or exit; ?>
+<?php class_exists('Http\Response') or exit; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo navbar() ?>  - User Login</title>
+    <title><?php echo navbar() ?> </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -102,74 +102,6 @@
 <?php endif; ?>
         <!-- /Breadcrumb -->
         
-<div class="container py-2">
-    <div class="card">
-        <div class="card-header">
-            <div class="row">
-                <div class="col mx-1 pt-1">
-                    Sign in to your account!
-                </div>
-                
-                <div class="d-flex justify-content-end col">
-                    <span class="mx-1 pt-1">or sign up with: </span>
-                    <a href="http://127.0.2.36/api/login_signup/google" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-google"></i></a>
-                    <a href="http://127.0.2.36/api/login_signup/apple" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-apple"></i></a>
-                    <a href="http://127.0.2.36/api/login_signup/github" class="btn signup-btn btn-sm btn-link btn-floating mx-1"><i class="bi bi-github"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <!-- Alerts -->
-                <?php if(Sessions::get('login_errors') == true): ?>
-<div class="row d-flex justify-content-center">
-    <div class="col-8 alert alert-danger" role="alert">
-        <?php Sessions::showErrors('login_errors'); ?>
-    </div>
-</div>
-<?php endif; ?>
-                <!-- /Alerts -->
-                <div class="col col-md-8 col-lg d-flex justify-content-center">
-                    <form action="<?php echo baseurl() ?>/auth/login" method="post" accept-charset="UTF-8">
-                        <div class="mb-3">
-                            <label for="inputEmail" class="form-label">Email address</label>
-                            <input type="email" name="user_email" class="form-control" id="inputEmail" aria-describedby="emailHelp" required />
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="passwordBlock" class="form-label">Password</label>
-                            <input type="password" name="user_password" class="form-control" id="passwordBlock"  aria-describedby="passwordHelpBlock" required />
-                            <div id="passwordHelpBlock" class="form-text">
-                                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col d-flex justify-content-center">
-                                <!-- Checkbox -->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="save_login" checked />
-                                    <label class="form-check-label" for="save_login"> Remember me </label>
-                                </div>
-                            </div>
-                            <div class="col d-flex justify-content-center">
-                                <!-- Simple link -->
-                                <a href="#!">Forgot password?</a>
-                            </div>
-                            <div class="d-flex justify-content-center mt-3">
-                                <input type="submit" style="width: 70%" class="btn btn-primary btn-block mb-4" value="Sign In" />
-                                <input type="hidden" name="csfr_key" value="<?php echo session_id(); ?>" />
-                                <input type="hidden" name="csfr_ref" value="login" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center mt-3">Don't have an account?&nbsp;&nbsp;<a href="<?php home_url() ?>/auth/signup">Register here</a></div>
-        </div>
-    </div>
-</div>
-
     </div>
 </body>
 </html>
-

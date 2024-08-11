@@ -29,7 +29,7 @@ $app = new App;
 try {
     $app->registerHandler([
         'Router' => Router::class,
-        'Session' => SessionHandler::class,
+        'Session' => Sessions::class,
         'Database' => Database::class,
         'Helpers' => ['functions', 'constants']
     ], 'app/core/');

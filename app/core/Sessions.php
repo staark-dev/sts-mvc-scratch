@@ -1,21 +1,58 @@
 <?php
-class _Sessions {
+class Sessions {
 
     static function all() {
         return $_SESSION;
     }
     static function get(string $key, $value = 'default') {
-        return $_SESSION[$key];
+        return $_SESSION[$key] ?? null;
+    }
+
+    static function delete(string $key) {
+        unset($_SESSION[$key]);
+    }
+
+    static function set(string $key, array $data = []) {
+        if(!isset($_SESSION[$key]) && is_array($data)) {
+            $_SESSION[$key] = $data;
+        } else {
+            $_SESSION[$key] = $data;
+        }
+        return false;
+    }
+
+    static function showErrors(string $key = '') {
+        $errors = [];
+
+        if(isset($_SESSION[$key]) && is_array($_SESSION[$key])) {
+            foreach($_SESSION[$key] as $keys => $value) {
+                if(in_array($keys, [$_SESSION[$key][$keys], 'registered'])) {
+                    continue;
+                }
+
+                if(!array_key_last($_SESSION[$key]))
+                    $errors[] .= "$value<br />";
+                else
+                $errors[] .= "$value";
+                
+            }
+
+            echo implode(" ", $errors);
+            return true;
+        }
+
+        return false;
     }
 
     static function put(string $key, string $keys, string $value) {
         if(!isset($_SESSION[$key])) {
-            $id = strtolower($keys);
-            $_SESSION[$key . "_{$id}"] = array($keys => $value, 'registered' => time());
-            session_create_id($key . "_{$id}");
+            $_SESSION[$key] = array($keys => $value, 'registered' => time());
         } else {
-            $id = random_int(1, 999);
-            $_SESSION[$key . "_{$id}"] = array($keys => $value, 'registered' => time());
+            $_SESSION[$key] = array($keys => $value, 'registered' => time());
+        }
+
+        if(isset($keys)) {
+            $_SESSION[$key] = $value;
         }
     }
 

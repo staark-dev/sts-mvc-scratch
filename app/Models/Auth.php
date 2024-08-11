@@ -46,45 +46,43 @@ class Auth extends Model {
         return [];
     }
 
-    public function loginSave(): array
+    public function loginSave(): mixed
     {
         if($this->request->isPost()) {
-            $this->errors = [];
             $data = $this->request->getBodyData();
             $stmt = $this->db->dbh->prepare("SELECT uID, name, email, type, status, passwords FROM `{$this->table}` WHERE `email` = :email LIMIT 0,1");
             $stmt->bindParam(':email', $data['user_email']);
             $stmt->execute();
 
-            if($stmt->rowCount() > 0) {
+            if($stmt->rowCount() >= 1) {
                 $user = $stmt->fetch(PDO::FETCH_OBJ);
 
                 if(strcasecmp($data['user_password'], $user->passwords)  !== 0) {
-                    $this->errors['login']['password'] = true;
+                    Sessions::put('login_errors', 'password', 'The entered password is incorrect!');
                 }
 
                 if(strcasecmp($data['user_email'], $user->email) !== 0) {
-                    $this->errors['login']['email'] = true;
+                    Sessions::put('login_errors', 'email', 'This email was not found, please check again!');
                 }
 
                 if(strcasecmp($data['user_password'], $user->passwords)  == 0) {
-                    $_SESSION['user'] = $user->name;
-                    $_SESSION['user_session'] = array(
+                    Sessions::delete('login_errors');
+
+                    Sessions::put('user', '', $user->name);
+                    Sessions::set('user_session', [
                         "id" => $user->uID,
                         "user" => $user->name,
                         "status" => $user->status,
-                        "admin" => (bool)$user->type,
-                        "expire" => time() * 5
-                    );
+                        "admin" => (bool)$user->type
+                    ]);
 
                     $this->response->to('/');
-                    exit;
                 }
             } else {
-                $this->errors['login']['user'] = true;
+                Sessions::put('login_errors', 'user', 'The password or email is incorrect, please check again!');
+                $this->response->to('/auth/login');
             }
-            return $this->errors;
         }
-
-        return $this->errors;
+        return false;
     }
 }

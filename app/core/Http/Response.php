@@ -15,7 +15,12 @@ class Response extends Redirect {
     }
 
     public function to(string $link) {
-        header("Location: {$link}");
-        exit;
+        if (headers_sent()) {
+            die("Redirect failed. Please click on this link: <a href='$link'>redirect...</a>");
+        }
+        else {
+            exit(header("Location: $link"));
+        }
     }
 }
+?>

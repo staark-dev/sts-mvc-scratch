@@ -78,8 +78,8 @@
 
                     <ul class="dropdown-menu text-small shadow" style="">
                         <li><a class="dropdown-item" href="#">Inbox</a></li>
-                        <li><a class="dropdown-item" href="<?php userlink ?>/settings">Settings</a></li>
-                        <li><a class="dropdown-item" href="<?php userlink ?>">Profile</a></li>
+                        <li><a class="dropdown-item" href="<?php echo 'http://127.0.2.36/auth/accounts/Admin/1'; ?>/settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="<?php echo 'http://127.0.2.36/auth/accounts/Admin/1'; ?>">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="<?php echo baseurl() ?>/auth/sign-out">Sign out</a></li>
                     </ul>
