@@ -3,14 +3,14 @@ namespace Http;
 
 class Request {
     public array $params = [];
+    
     public function __construct(
         public readonly array $getParams,
         public readonly array $postParams,
         public readonly array $cookies,
         public readonly array $files,
         public readonly array $server
-    )
-    {}
+    ){}
 
     public static function createFromGlobals(): static
     {

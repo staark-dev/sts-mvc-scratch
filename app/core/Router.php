@@ -19,8 +19,8 @@ class Router {
      */
     public function __construct() {
         global $request;
-        
-        if(!isset(self::$routesMap[$_SERVER['REQUEST_METHOD']][$request->getPath()]))
+
+        if(!isset(self::$routesMap[$request->server['REQUEST_METHOD']][$request->getPath()]))
             $this->view('404');
     }
 
@@ -43,10 +43,9 @@ class Router {
     /**
      * @throws exception
      */
-    public static function dispatch(string &$url, mixed &$callback): void
+    public static function dispatch(string $url, mixed $callback): void
     {
         global $request;
-        global $response;
 
         $params = $_SERVER['REQUEST_URI'];
         $params = (stripos($params, "/") !== 0) ? "/" . $params : $params;
@@ -54,7 +53,7 @@ class Router {
         $is_match = preg_match('/^' . ($regex) . '$/', $params, $matches, PREG_OFFSET_CAPTURE);
 
         if($is_match) {
-            self::$routesMap[$_SERVER['REQUEST_METHOD']][$params] = $callback;
+            self::$routesMap[$request->server['REQUEST_METHOD']][$params] = $callback;
             array_shift($matches);
 
             $params = array_map(function ($param) {

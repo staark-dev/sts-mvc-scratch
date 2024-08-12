@@ -23,19 +23,27 @@ class Database {
         ((!empty(app('database', 'port'))) ? (';port=' . app('database', 'port')) : '') .
         ';dbname=' . app('database', 'schema');
 
-        
-        if(self::$instance === null)
-            self::$instance = new PDO($dns, app('database', 'username'), app('database', 'password'), $options);
-        else
-            self::$instance = null;
+        $this->dbh = new PDO($dns, app('database', 'username'), app('database', 'password'), $options);
 
-        $this->dbh = self::$instance;
-        return $this;
+        return $this->dbh;
     }
 
-    public function prepare(string $query): PDOStatement 
-    {
-        return $this->dbh->prepare($query);
+    public static function connect() {
+        $dns = app('database', 'driver') .
+        ':host=' . app('database', 'host') .
+        ((!empty(app('database', 'port'))) ? (';port=' . app('database', 'port')) : '') .
+        ';dbname=' . app('database', 'schema');
+
+        if(self::$instance === null) {
+            self::$instance = new PDO($dns, app('database', 'username'), app('database', 'password'), [
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_CASE => \PDO::CASE_NATURAL,
+                \PDO::ATTR_ORACLE_NULLS => \PDO::NULL_EMPTY_STRING,
+                \PDO::ATTR_EMULATE_PREPARES => false
+            ]);
+        }
+
+        return self::$instance;
     }
 
     public function query(string $query, array $data = []): mixed {

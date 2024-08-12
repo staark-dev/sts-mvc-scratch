@@ -1,10 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use Database as DB;
 class Session extends SessionHandler {
     private static $_initialized = false;
-    public static $instance = null;
 
     /**
      * Disallow public construction
@@ -14,10 +12,9 @@ class Session extends SessionHandler {
     public static function start($lifetime = 0, $path = '/', $domain = null, $httpOnly = true)
     {
         global $request;
-        self::$instance = new DB();
 
         if (!self::$_initialized) {
-            if (!is_object(self::$instance) || !self::$instance) {
+            if (!is_object(Database::connect()) || !Database::connect()) {
                 throw new Exception('Failed to start session, no Database found.');
             }
 
@@ -62,7 +59,7 @@ class Session extends SessionHandler {
                 'httponly' => true,
             ]);
 
-            @session_cache_limiter('public');
+            @session_cache_limiter('nocache');
 
             if (!@session_id()) {
                 if (headers_sent()) {
@@ -71,15 +68,6 @@ class Session extends SessionHandler {
 
                 @register_shutdown_function('session_write_close');
                 @session_start();
-
-                $fields = array(
-                    'session' => @session_id(),
-                    'session_expires' => date("Y-m-d H:i:s", time()),
-                    'session_data' => "_sts-|a:0:{}"
-                );
-        
-                $sql = self::$instance->dbh->prepare("INSERT INTO tbl_sessions(`session`, `session_expires`, `session_data`) VALUES ('{$fields['session']}', '{$fields['session_expires']}', '{$fields['session_data']}')");
-                $sql->execute();
             }
             
             self::$_initialized = true;
@@ -140,20 +128,20 @@ class Session extends SessionHandler {
                 if ($empty) {
                     return true;
                 }
-            // PHP 7.0 makes the session inactive in write callback,
-            // so we try to detect empty sessions without decoding them
-            } elseif ($data === '_sts-' . '|a:0:{}') {
+            } elseif ($data === 'sts-' . '|a:0:{}') {
                 return true;
             }
         }
 
         $fields = array(
-            'session' => $id,
-            'session_expires' => time(),
+            'session' => $session_data,
+            'session_expires' => date('Y-m-d H:i:s', time()),
             'session_data' => $data
         );
 
-        $sql = self::$instance->dbh->prepare("INSERT INTO tbl_sessions(`session`, `session_expires`, `session_data`) VALUES ({$fields['session']}, {$fields['session_expires']}, {$fields['session_data']})");
+
+        $sql = Database::connect()->prepare("INSERT INTO tbl_sessions(`session`, `session_expires`, `session_data`) VALUES ({$fields['session']}, {$fields['session_expires']}, {$fields['session_data']}) ON DUPLICATE KEY UPDATE session = session");
+        dd($sql);
         $result  = $sql->execute();
         return $result ?? false;
     }
@@ -180,7 +168,7 @@ class Session extends SessionHandler {
             return null;
         }
 
-        $sql = self::$instance->prepare("SELECT `session_data` FROM `tbl_sessions` WHERE `session` = '{$id}' LIMIT 0, 1");
+        $sql = Database::connect()->prepare("SELECT `session_data` FROM `tbl_sessions` WHERE `session` = '{$id}' LIMIT 0, 1");
         $sql->execute();
         $session = strval($sql->fetchColumn());
         return $session ?? $id;
@@ -192,13 +180,13 @@ class Session extends SessionHandler {
             return true;
         }
 
-        $sql = self::$instance->prepare("DELETE FROM `tbl_sessions` WHERE `session` = '{$id}'");
+        $sql = Database::connect()->prepare("DELETE FROM `tbl_sessions` WHERE `session` = '{$id}'");
         return $sql->execute();
     }
 
     public function gc(int $max_lifetime): int|false
     {
-        $sql = self::$instance->prepare("DELETE FROM `tbl_sessions` WHERE `session_expires` <= ". time() - $max_lifetime ."");
+        $sql = Database::connect()->prepare("DELETE FROM `tbl_sessions` WHERE `session_expires` <= ". time() - $max_lifetime ."");
         $sql->execute();
         return $sql->rowCount();
     }

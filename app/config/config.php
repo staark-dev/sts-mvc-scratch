@@ -1,4 +1,8 @@
 <?php 
+declare(strict_types=1);
+
+define('APP_PATH', dirname(__DIR__));
+define('CORE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR .'core' . DIRECTORY_SEPARATOR);
 
 function baseurl() {
     return 'http://127.0.2.36';
@@ -13,7 +17,7 @@ function navbar() {
 }
 
 function app(mixed $key, mixed $vars = false, string $file = 'config.ini') {
-    if (!$config = parse_ini_file(basename('/app') . "/config/" . $file, TRUE)) 
+    if (!$config = parse_ini_file(APP_PATH . "/config/" . $file, TRUE)) 
         throw new exception('Unable to open ' . $file . '.');
 
     return $config[$key][$vars] ?? null;

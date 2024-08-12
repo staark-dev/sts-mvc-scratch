@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-control" content="no-cache" />
     <title><?php echo navbar() ?>  - User Sign Up</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -119,10 +120,12 @@
         <div class="card-body">
             <div class="row justify-content-center">
                 <!-- Alerts -->
-                <div class="row d-flex justify-content-center">
+                <?php if(Session::get('login_errors')): ?>
+<div class="row d-flex justify-content-center">
     <div class="col-8 alert alert-danger" role="alert">
     </div>
 </div>
+<?php endif; ?>
                 <!-- /Alerts -->
                 <div class="col-10">
                     <form action="<?php home_url() ?>/auth/signup" method="post" accept-charset="UTF-8">

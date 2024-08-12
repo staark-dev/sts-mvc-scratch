@@ -1,9 +1,6 @@
 <?php
 class App {
-    public function __construct() {
-        require_once 'app/routes/web.php';
-        require_once 'app/routes/api.php';
-    }
+    public function __construct() {}
 
     /**
      * @throws Exception
@@ -46,9 +43,7 @@ class App {
         return false;
     }
 
-    public function run($kernel, $request): void
+    public function run(): void
     {
-        $response = $kernel->handle($request);
-        $response->send();
     }
 }

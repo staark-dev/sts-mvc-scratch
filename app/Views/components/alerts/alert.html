@@ -1,4 +1,6 @@
+{{ if(Session::get('login_errors')): }}
 <div class="row d-flex justify-content-center">
     <div class="col-8 alert alert-danger" role="alert">
     </div>
 </div>
+{{ endif; }}
