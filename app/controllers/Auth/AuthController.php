@@ -1,9 +1,6 @@
 <?php
 namespace Auth;
 
-use http\Env\Response;
-use Http\Request;
-
 class AuthController extends \Controller {
     public array $errors = [];
     /**
@@ -22,7 +19,6 @@ class AuthController extends \Controller {
 
     public function login() {
         $this->model->loginSave();
-        \Sessions::delete('login_errors');
     }
 
     public function create() {
@@ -39,6 +35,6 @@ class AuthController extends \Controller {
     public function sign_out() {
         unset($_SESSION['user']);
         unset($_SESSION['user_session']);
-        $this->response->to('/');
+        redirect('some/url');
     }
 }

@@ -1,4 +1,4 @@
-<?php class_exists('Controller') or exit; ?>
+<?php declare(strict_types=1); class_exists('Controller') or exit; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +13,7 @@
     <script src="<?php echo baseurl() ?>/public/assets/bootstrap/js/main.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
+    <div class="header">
     <div class="px-3 py-2 text-bg-dark border-bottom">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -78,8 +78,8 @@
 
                     <ul class="dropdown-menu text-small shadow" style="">
                         <li><a class="dropdown-item" href="#">Inbox</a></li>
-                        <li><a class="dropdown-item" href="<?php echo 'http://127.0.2.36/auth/accounts/Admin/1'; ?>/settings">Settings</a></li>
-                        <li><a class="dropdown-item" href="<?php echo 'http://127.0.2.36/auth/accounts/Admin/1'; ?>">Profile</a></li>
+                        <li><a class="dropdown-item" href="<?php userlink ?>/settings">Settings</a></li>
+                        <li><a class="dropdown-item" href="<?php userlink ?>">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="<?php echo baseurl() ?>/auth/sign-out">Sign out</a></li>
                     </ul>
@@ -88,9 +88,8 @@
             </div>
         </div>
     </div>
-</header>
+</div>
     <div class="container-fluid">
-        <!-- Breadcrumb -->
         <?php if($_SERVER['REQUEST_URI'] !== "/"): ?>
 <div class="container mt-5">
     <nav aria-label="breadcrumb" class="main-breadcrumb">
@@ -100,7 +99,6 @@
     </nav>
 </div>
 <?php endif; ?>
-        <!-- /Breadcrumb -->
         
 <div class="container my-5 py-2">
     <div class="row">
@@ -121,7 +119,7 @@
                         <?php foreach($data as $users): ?>
                             <tr id="user-<?php echo $users['uID'] ?>">
                                 <td><input type="checkbox" class="checkthis" id="<?php echo $users['uID'] ?>" /></td>
-                                <?php if(strcmp($users['uID'], 0)): ?>
+                                <?php if(strcmp(strval($users['uID']), '0')): ?>
                                 <td><a href="/user/profile/<?php echo $users['name'] ?>/<?php echo $users['uID'] ?>" class="user-link text-sm text-info"><?php echo $users['name'] ?></a></td>
                                 <td><?php echo $users['email'] ?></td>
                                 <td><?php echo $users['date'] ?></td>

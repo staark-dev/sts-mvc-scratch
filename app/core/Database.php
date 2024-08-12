@@ -3,11 +3,12 @@
 
 /**
  * Database traits
- * @param $dbh->connect()
+ * @param Database::$instance
  */
 class Database {
     public $dbh;
     private $stmt;
+    public static $instance = null;
 
     public function __construct() {
         $options = [
@@ -22,7 +23,19 @@ class Database {
         ((!empty(app('database', 'port'))) ? (';port=' . app('database', 'port')) : '') .
         ';dbname=' . app('database', 'schema');
 
-        return $this->dbh = new \PDO($dns, app('database', 'username'), app('database', 'password'), $options);
+        
+        if(self::$instance === null)
+            self::$instance = new PDO($dns, app('database', 'username'), app('database', 'password'), $options);
+        else
+            self::$instance = null;
+
+        $this->dbh = self::$instance;
+        return $this;
+    }
+
+    public function prepare(string $query): PDOStatement 
+    {
+        return $this->dbh->prepare($query);
     }
 
     public function query(string $query, array $data = []): mixed {

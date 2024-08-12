@@ -22,7 +22,7 @@ trait Template {
         if (!$cache_status || !file_exists($cached_file) || filemtime($cached_file) < filemtime($fileName)) {
 			$code = $this->includeFiles($fileName);
 			$code = self::compileCode($code);
-	        file_put_contents($cached_file, '<?php class_exists(\'' . __CLASS__ . '\') or exit; ?>' . PHP_EOL . $code);
+	        file_put_contents($cached_file, '<?php declare(strict_types=1); class_exists(\'' . __CLASS__ . '\') or exit; ?>' . PHP_EOL . $code);
 	    }
 
 		return $cached_file;
@@ -41,12 +41,13 @@ trait Template {
 	private function includeFiles($fileName): array|string|null
     {
         // Set Global Variables
-        $viewsPath = app('app', 'views_path');
+        $viewsPath = app('app', 'views_path') ?? 'app/views/';
 
-        if(!file_exists($viewsPath . $fileName . '.html'))
+        if(!file_exists('app/views/' . $fileName . '.html'))
             throw new \Exception('Unable to open view file (' . $fileName . ') !', 0);
 
-		$code = file_get_contents($viewsPath . $fileName . '.html');
+		$code = file_get_contents('app/views/' . $fileName . '.html', true);
+        
 		preg_match_all('/{% ?(extends|include) ?\'?(.*?)\'? ?%}/i', $code, $matches, PREG_SET_ORDER);
 
 		foreach ($matches as $value) {

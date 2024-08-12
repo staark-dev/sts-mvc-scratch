@@ -8,9 +8,9 @@
 {% block content %}
 <div class="container my-5">
     @auth
-    Hi, {% $data[0] %}
+    Hi, {% $data[0] ?? ''; %}
     @endauth
-    Welcome to @guest {% $data[0] %} User Profile @endguest
+    Welcome to @guest {% $data[0] ?? ''; %} User Profile @endguest
 
 </div>
 {% endblock %}

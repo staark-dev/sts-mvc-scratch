@@ -25,16 +25,18 @@ function breadcrumbs($separator = ' &raquo; ', $home = 'Home') {
     $last = array_key_last($path);
 
     // Build the rest of the breadcrumbs
+    $lastTitle = '';
     foreach ($path AS $x => $crumb) {
-        if(in_array($crumb, [$_SERVER['HTTP_HOST'], 'auth', 'api', 'login_signup'])) {
+        if(in_array($crumb, [$_SERVER['HTTP_HOST'], 'auth', 'api', 'login_signup', 'profile'])) {
             continue;
+        }
+
+        if(in_array($crumb, [$_SERVER['HTTP_HOST'], 'profile', 'user'])){
+            $lastTitle = 'User Profile';
         }
         
         // Our "title" is the text that will be displayed (strip out .php and turn '_' into a space)
         $title = ucwords(str_replace(Array('.php', '_', '%20'), Array(' ', ' ', ' '), $crumb));
-
-        if(count($path) > 2 && is_numeric($crumb))
-            $lastTitle = ucwords(str_replace(Array('.php', '_', '%20'), Array(' ', ' ', ' '), $path[$x - 1]));
 
         // If we are not on the last index, then display an <a> tag
         if ($x != $last) {
@@ -45,13 +47,27 @@ function breadcrumbs($separator = ' &raquo; ', $home = 'Home') {
         }
         // Otherwise, just display the title (minus)
         else {
-            if(is_numeric($crumb)) {
-                $breadcrumbs[] = "<li class='breadcrumb-item active' aria-current=\"page\">User Profile</li>";
-            } else
+            if(is_numeric($crumb))
+                $breadcrumbs[] = "<li class='breadcrumb-item active' aria-current=\"page\">$lastTitle</li>";
+            else
                 $breadcrumbs[] = "<li class='breadcrumb-item active' aria-current=\"page\">$title</li>";
         }
     }
 
     // Build our temporary array (pieces of bread) into one big string :)
     echo implode($separator, $breadcrumbs);
+}
+
+
+function dd(mixed $var) {
+    echo "<div class=\"dd\" style='background: #000;color: #96c942;max-height: 150px;overflow: overlay;'><pre>";
+    print_r($var);
+    echo "<pre></div>";
+}
+
+function redirect(string $url) {
+    flush(); // Flush the buffer
+    ob_flush();
+    header("Location: $url", true, 200);
+    exit;
 }

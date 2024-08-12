@@ -20,7 +20,7 @@
                         @foreach($data as $users)
                             <tr id="user-{% $users['uID'] %}">
                                 <td><input type="checkbox" class="checkthis" id="{% $users['uID'] %}" /></td>
-                                @if(strcmp($users['uID'], 0))
+                                @if(strcmp(strval($users['uID']), '0'))
                                 <td>@url{{% $users['uID'] %}|{% $users['name'] %}}</td>
                                 <td>{% $users['email'] %}</td>
                                 <td>{% $users['date'] %}</td>

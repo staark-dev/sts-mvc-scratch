@@ -3,16 +3,13 @@
  * Final Class Controller
  * @params
  */
-use \Http\{Request, Response};
-
 abstract class Controller {
     use Template;
 
+    public Http\Request $request;
     protected mixed $model = null;
     protected mixed $middleware = null;
     protected mixed $method = null;
-    public ?Request $request;
-    public ?Response $response;
     public mixed $action = 'index';
 
     /**
@@ -20,12 +17,11 @@ abstract class Controller {
      */
     public function __construct()
     {
-        $this->request = new Request;
-        $this->response = new Response;
+        global $request;
         $this->model = null;
 
         if(method_exists($this, $this->action)) {
-            $this->action = $this->request->getMethod();
+            $this->action = $request->getMethod();
         } else {
             $this->action = null;
         }
@@ -41,19 +37,6 @@ abstract class Controller {
             'Middleware' => null,
             'Method' => null
         ]);
-
-        /**
-         * Auto register model not work perfect
-         *
-         */
-        /*$model = explode("\\", get_called_class());
-        if(isset($model[1])) {
-            $model[1] = str_replace(['Controller', 'sController'], "", $model[1]);
-            $this->model = $this->loadModel($model[1]);
-        } else {
-            $model[0] = str_replace(['Controller', 'sController'], "", $model[0]);
-            $this->model = $this->loadModel($model[0]);
-        }*/
     }
 
     /**

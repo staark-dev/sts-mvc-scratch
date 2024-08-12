@@ -1,16 +1,6 @@
 <?php
-
-use Http\{Request, Response};
-
 class App {
-    use Template;
-    public ?Request  $request;
-    public ?Response $response;
-
     public function __construct() {
-        $this->request = new Request;
-        $this->response = new Response;
-
         require_once 'app/routes/web.php';
         require_once 'app/routes/api.php';
     }
@@ -56,8 +46,9 @@ class App {
         return false;
     }
 
-    public function run(): void
+    public function run($kernel, $request): void
     {
-        // TODO: 
+        $response = $kernel->handle($request);
+        $response->send();
     }
 }

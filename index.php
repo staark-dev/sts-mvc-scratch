@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * --------------------------------------------------
@@ -13,6 +14,10 @@ require_once 'app/bootstrap.php';
  * --------------------------------------------------
 */
 
+Session::start(30, app('app', 'cache_path'), 'localhost', false);
+
+$request = \Http\Request::createFromGlobals();
+$kernel = new \Http\Kernel();
 /**
  * --------------------------------------------------
  * Create Instance of Applications
@@ -29,10 +34,9 @@ $app = new App;
 try {
     $app->registerHandler([
         'Router' => Router::class,
-        'Session' => Sessions::class,
-        'Database' => Database::class,
-        'Helpers' => ['functions', 'constants']
+        'Database' => Database::class
     ], 'app/core/');
+
 } catch (Exception $e) {
     echo "[STS Logs]: " . $e->getMessage();
 }
@@ -42,5 +46,4 @@ try {
  * Run Applications
  * --------------------------------------------------
 */
-
-$app->run();
+$app->run($kernel, $request);

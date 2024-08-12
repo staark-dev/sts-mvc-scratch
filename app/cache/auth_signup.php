@@ -1,4 +1,4 @@
-<?php class_exists('Controller') or exit; ?>
+<?php declare(strict_types=1); class_exists('Controller') or exit; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +13,7 @@
     <script src="<?php echo baseurl() ?>/public/assets/bootstrap/js/main.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
+    <div class="header">
     <div class="px-3 py-2 text-bg-dark border-bottom">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -88,9 +88,8 @@
             </div>
         </div>
     </div>
-</header>
+</div>
     <div class="container-fluid">
-        <!-- Breadcrumb -->
         <?php if($_SERVER['REQUEST_URI'] !== "/"): ?>
 <div class="container mt-5">
     <nav aria-label="breadcrumb" class="main-breadcrumb">
@@ -100,7 +99,6 @@
     </nav>
 </div>
 <?php endif; ?>
-        <!-- /Breadcrumb -->
         
 <div class="container py-2">
     <div class="card">
@@ -121,13 +119,10 @@
         <div class="card-body">
             <div class="row justify-content-center">
                 <!-- Alerts -->
-                <?php if(Sessions::get('login_errors') == true): ?>
-<div class="row d-flex justify-content-center">
+                <div class="row d-flex justify-content-center">
     <div class="col-8 alert alert-danger" role="alert">
-        <?php Sessions::showErrors('login_errors'); ?>
     </div>
 </div>
-<?php endif; ?>
                 <!-- /Alerts -->
                 <div class="col-10">
                     <form action="<?php home_url() ?>/auth/signup" method="post" accept-charset="UTF-8">

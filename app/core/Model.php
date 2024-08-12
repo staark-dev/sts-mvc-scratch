@@ -9,8 +9,6 @@ use Database as DB;
  * @param $response new Response()
  */
 abstract class Model {
-    public ?Request $request;
-    public ?Response $response;
     public ?Database $db = null;
     protected string $table;
     protected array $allowedColumns = [];
@@ -25,20 +23,19 @@ abstract class Model {
 
     public function __construct()
     {
-        $this->request = new Request;
-        $this->response = new Response;
+        global $request;
         $this->db = new DB;
         $this->errors = [];
     }
     
 
-    abstract public function show(?Request $request, ?Response $response);
+    abstract public function show(Request $request, Response $response);
 
-    abstract public function store(?Request $request, ?Response $response);
+    abstract public function store(Request $request, Response $response);
 
-    abstract public function save(?Request $request, ?Response $response);
+    abstract public function save(Request $request, Response $response);
 
-    abstract public function update(?Request $request, ?Response $response);
+    abstract public function update(Request $request, Response $response);
 
-    abstract public function delete(?Request $request, ?Response $response);
+    abstract public function delete(Request $request, Response $response);
 }

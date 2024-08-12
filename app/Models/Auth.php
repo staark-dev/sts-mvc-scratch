@@ -1,10 +1,11 @@
 <?php
-use Http\{Request, Response};
 
 /**
  * User Auth Management Class
  * @property $dbh
  */
+use Http\{Request, Response};
+
 class Auth extends Model {
     protected string $table = 'accounts'; // Default is 'users'
     protected array $allowedColumns = [
@@ -14,19 +15,15 @@ class Auth extends Model {
     ];
     public array $errors = [];
 
-    public function show(?Request $request, ?Response $response) {}
+    public function show(Request $request, Response $response): void {}
 
-    public function store(?Request $request, ?Response $response) {}
+    public function store(Request $request, Response $response): void {}
 
-    public function save(?Request $request, ?Response $response) {
-        if($request->isPost()) {
-            // TODO:
-        }
-    }
+    public function save(Request $request, Response $response): void {}
 
-    public function update(?Request $request, ?Response $response) {}
+    public function update(Request $request, Response $response): void {}
 
-    public function delete(?Request $request, ?Response $response) {}
+    public function delete(Request $request, Response $response): void {}
 
     public function getUsers() {
         return $this->db->query_result_array("SELECT * FROM {$this->table} ORDER BY uID DESC LIMIT 0, 10");
@@ -48,8 +45,9 @@ class Auth extends Model {
 
     public function loginSave(): mixed
     {
-        if($this->request->isPost()) {
-            $data = $this->request->getBodyData();
+        global $request;
+        if($request->isPost()) {
+            $data = $request->getBodyData();
             $stmt = $this->db->dbh->prepare("SELECT uID, name, email, type, status, passwords FROM `{$this->table}` WHERE `email` = :email LIMIT 0,1");
             $stmt->bindParam(':email', $data['user_email']);
             $stmt->execute();
@@ -58,29 +56,32 @@ class Auth extends Model {
                 $user = $stmt->fetch(PDO::FETCH_OBJ);
 
                 if(strcasecmp($data['user_password'], $user->passwords)  !== 0) {
-                    Sessions::put('login_errors', 'password', 'The entered password is incorrect!');
+                    //Sessions::put('login_errors', 'password', 'The entered password is incorrect!');
+                    echo "The entered password is incorrect!";
                 }
 
                 if(strcasecmp($data['user_email'], $user->email) !== 0) {
-                    Sessions::put('login_errors', 'email', 'This email was not found, please check again!');
+                    //Sessions::put('login_errors', 'email', 'This email was not found, please check again!');
+                    echo "This email was not found, please check again!";
                 }
 
                 if(strcasecmp($data['user_password'], $user->passwords)  == 0) {
-                    Sessions::delete('login_errors');
+                    //Sessions::delete('login_errors');
 
-                    Sessions::put('user', '', $user->name);
-                    Sessions::set('user_session', [
+                    //Sessions::put('user', '', $user->name);
+                    /*Sessions::set('user_session', [
                         "id" => $user->uID,
                         "user" => $user->name,
                         "status" => $user->status,
                         "admin" => (bool)$user->type
-                    ]);
+                    ]);*/
 
-                    $this->response->to('/');
+                    redirect('/');
                 }
             } else {
-                Sessions::put('login_errors', 'user', 'The password or email is incorrect, please check again!');
-                $this->response->to('/auth/login');
+                //Sessions::put('login_errors', 'user', 'The password or email is incorrect, please check again!');
+                echo "The password or email is incorrect, please check again!";
+                redirect('/auth/login');
             }
         }
         return false;

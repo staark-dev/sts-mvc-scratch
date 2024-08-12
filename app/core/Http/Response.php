@@ -1,26 +1,18 @@
 <?php
 namespace Http;
-use Http\Redirect;
 
-class Response extends Redirect {
-    use \Template;
+use Template;
 
-    public function statusCode(int $code)
+class Response {
+    use Template;
+    public function __construct(
+        private ?string $content = '',
+        private int $status = 200,
+        private array $headers = []
+    ) {}
+
+    public function send(): void
     {
-        http_response_code($code);
-    }
-
-    public function back() {
-        header("Location: /");
-    }
-
-    public function to(string $link) {
-        if (headers_sent()) {
-            die("Redirect failed. Please click on this link: <a href='$link'>redirect...</a>");
-        }
-        else {
-            exit(header("Location: $link"));
-        }
+        echo $this->content;
     }
 }
-?>
